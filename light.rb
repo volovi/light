@@ -6,7 +6,7 @@ HTMLBEG = <<~EOF
 <html>
 <head>
 <meta charset="utf-8">
-<title>%{title}</title>
+<title>%s</title>
 <style>
 body {
   font-family: Copperplate;
@@ -88,20 +88,23 @@ def process(arg, file)
   dst = 'm%02d/' % arg
   items = parse src
   cp items, src, dst
-  file.write MODULE % { 
-    tag: dst.chomp('/'), 
-    videos: items.map do |path, desc|
-      VIDEO % { path: dst + path, desc: desc }
-    end.join
-  }
+  file.write(
+    MODULE % { tag: dst.chomp('/'), videos:
+      items.map do |path, desc|
+        VIDEO % { path: dst + path, desc: desc }
+      end.join
+    }
+  )
 end
 
 def run(*args)
   name = 'm%s.html' % args.map { |arg| '%02d' % arg }.join
   title = 'Molude %s' % args.join(' ')
   File.open(name, 'w') do |file|
-    file.write HTMLBEG % { title: title }
-    args.each { |arg| process arg, file }
+    file.write HTMLBEG % title
+    args.each do |arg|
+      process arg, file
+    end
     file.write HTMLEND
   end
 end
