@@ -48,9 +48,8 @@ list.forEach(element => {
 </html>
 EOF
 
-MODULE = <<~EOF.chomp
-<div class="tag">%{tag}</div>
-%{videos}
+TAG = <<~EOF
+<div class="tag">%s</div>
 EOF
 
 VIDEO = <<~EOF
@@ -89,11 +88,10 @@ def process(arg, file)
   items = parse src
   cp items, src, dst
   file.write(
-    MODULE % { tag: dst.chomp('/'), videos:
-      items.map do |path, desc|
-        VIDEO % { path: dst + path, desc: desc }
-      end.join
-    }
+    TAG % dst.chomp('/'),
+    items.map do |path, desc|
+      VIDEO % { path: dst + path, desc: desc }
+    end.join
   )
 end
 
