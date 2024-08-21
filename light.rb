@@ -99,7 +99,7 @@ end
 
 def run(*args)
   name = 'm%s.html' % args.map { |arg| '%02d' % arg }.join
-  title = 'Molude %s' % args.join(' ')
+  title = 'Module %s' % args.join(' ')
   File.open(name, 'w') do |file|
     file.write HTMLBEG % title
     args.each do |arg|
