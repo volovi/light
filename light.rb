@@ -75,7 +75,7 @@ def parse(src)
 end
 
 def cp(items, src, dst)
-  return if Dir.exists? dst
+  return if Dir.exist? dst
   Dir.mkdir dst
   items.each do |path, _|
     FileUtils.cp src + path, dst
@@ -124,11 +124,11 @@ if __FILE__ == $0
     puts 'Too few arguments (a valid module number required)'
     exit
   end
-  validate *ARGV
+  validate(*ARGV)
   wd = File.basename __FILE__, '.rb'
-  Dir.mkdir wd unless Dir.exists? wd
-  Dir.chdir wd do 
-    run *ARGV
+  Dir.mkdir wd unless Dir.exist? wd
+  Dir.chdir wd do
+    run(*ARGV)
   end
 end
 
