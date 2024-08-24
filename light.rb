@@ -107,11 +107,24 @@ def run(*args)
   end
 end
 
+def validate(*args)
+  args.reject do |arg|
+    name = '/Volumes/light/Content/moduls/z%02d/config.xml' % arg
+    File.exist? name
+  end.tap do |args|
+    if args.length > 0
+      msg = 'invalid module number: "%s"' % args.join('" "')
+      raise ArgumentError.new msg
+    end
+  end
+end
+
 if __FILE__ == $0
   if ARGV.length < 1
     puts 'Too few arguments (a valid module number required)'
     exit
   end
+  validate *ARGV
   wd = File.basename __FILE__, '.rb'
   Dir.mkdir wd unless Dir.exists? wd
   Dir.chdir wd do 
