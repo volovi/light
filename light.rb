@@ -114,7 +114,7 @@ def validate(*args)
   end.tap do |args|
     if args.length > 0
       msg = 'invalid module number: "%s"' % args.join('" "')
-      raise ArgumentError.new msg
+      raise ArgumentError, msg
     end
   end
 end
